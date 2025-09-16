@@ -1,0 +1,10 @@
+# no @package
+
+dataset_name: archivalqa
+
+data_dir: ???
+train_path: '${dataset.data_dir}/train.csv'
+val_path: '${dataset.data_dir}/val.csv'
+test_path: '${dataset.data_dir}/test.csv'
+
+full_passage: False

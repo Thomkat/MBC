@@ -1,0 +1,20 @@
+defaults:
+  - _self_
+  - model: ???         # Placeholder for default model (e.g., distilgpt2)
+  - dataset: ???     # Placeholder for default dataset (e.g., streamingqa)
+
+seed: 42
+CACHE_DIR: null
+
+downsample_to: 1665
+
+log_dir: null
+load_path: null
+
+quant_type: null
+
+run_id: online_adapt_mbc_${model.base_model}_${dataset.dataset_name}_${now:%Y-%m-%d_%H-%M-%S}
+
+hydra:
+  run:
+    dir: outputs/${run_id}

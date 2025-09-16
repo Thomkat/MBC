@@ -1,0 +1,42 @@
+# no @package
+
+base_model: 'Llama2_7b'
+tokenizer_name_base_model: 'meta-llama/Llama-2-7b-hf'
+llama_cache_dir: null
+
+amortization_network: 't5-large'
+question_encoder: 't5-base'
+tokenizer_name_amort: 't5-large'
+
+train_update_batch_size: 4
+val_update_batch_size: 12
+grad_acc_steps: 8
+
+token_dim: null
+num_virtual_tokens: 24
+layer_num_virtual_tokens: 2
+
+# Codebook config
+vq_num_codes: 512
+vq_commitment_cost: 0.25
+vq_lambda: 1.0
+
+# KV-LoRA for base LM (last-N layers)
+enable_lora: true
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+lora_last_n_layers: 16
+
+num_cross_attention_blocks: 4
+
+hierarchical_aggregation: False
+hierarchical_agg_M: 16
+backprop_drop: 0.75
+
+# Parameters for online adaptation / evaluation (not training)
+eval_amort_comp_batch_size: 16 # Batch size for amortization & compression of contexts
+eval_generation_batch_size: 1 # Batch size for aggregation and generation of answers from queries
+num_beams: 12
+num_beam_groups: 4
+diversity_penalty: 10.0

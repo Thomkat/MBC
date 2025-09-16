@@ -1,0 +1,35 @@
+defaults:
+  - _self_
+  - model: ???         # Placeholder for default model (e.g., distilgpt2)
+  - dataset: ???     # Placeholder for default dataset (e.g., streamingqa)
+
+seed: 42
+CACHE_DIR: null
+
+n_epochs: 50
+optimizer: 'adam'
+learning_rate: 1e-5
+lr_schedule: 'constant_with_warmup'
+warmup_ratio: 0.01
+grad_clip_thresh: 100.0
+drop_enable: True
+
+early_stop: False
+early_stopping_patience: 10
+
+mixed_precision: null
+load_from_hf: False
+quant_type: null
+
+world_size: 0
+
+wandb_log: false
+wandb_entity: null
+wandb_project: 'MBC'
+wandb_key: null
+
+run_id: train_mbc_${model.base_model}_${dataset.dataset_name}_${now:%Y-%m-%d_%H-%M-%S}
+
+hydra:
+  run:
+    dir: outputs/${run_id}
