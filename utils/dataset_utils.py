@@ -293,16 +293,16 @@ def get_trainval_dataloader(cfg, tokenizer, tokenizer_amort=None):
         raise NotImplementedError(f"Dataset {cfg.dataset.dataset_name} not implemented")
 
     if cfg.model.backprop_drop != 1.0:
-        batch_size = int((cfg.model.update_batch_size // cfg.world_size) / cfg.model.backprop_drop)
+        batch_size = int((cfg.model.train_update_batch_size // cfg.world_size) / cfg.model.backprop_drop)
         cfg.n_epochs = int(cfg.n_epochs / cfg.model.backprop_drop)
     else:
-        batch_size = cfg.model.update_batch_size // cfg.world_size
+        batch_size = cfg.model.train_update_batch_size // cfg.world_size
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, batch_size=batch_size, drop_last=True
     )
     val_dataloader = DataLoader(
-        val_dataset, shuffle=False, batch_size=cfg.model.update_val_batch_size//cfg.world_size
+        val_dataset, shuffle=False, batch_size=cfg.model.val_update_batch_size//cfg.world_size
     )
     val_gen_dataloader = DataLoader(
         val_dataset_gen, shuffle=False, batch_size=1
@@ -317,7 +317,7 @@ def get_online_adapt_dataloader(cfg, tokenizer, tokenizer_amort=None):
 
     if cfg.dataset.dataset_name == 'streamingqa':
         amort_comp_dataset = StreamingQADataset(cfg.dataset.test_path, tokenizer=tokenizer, qa_for_generation=True,
-                                          pad_qa_for_gen=(cfg.model.amort_comp_batch_size != 1),
+                                          pad_qa_for_gen=(cfg.model.eval_amort_comp_batch_size != 1),
                                           downsample_to=cfg.downsample_to, max_text_len=max_text_len,
                                           tokenizer_amort=tokenizer_amort, num_virtual_tokens=num_virtual_tokens)
         eval_dataset = StreamingQADataset(cfg.dataset.test_path, tokenizer=tokenizer, qa_for_generation=True,
@@ -327,7 +327,7 @@ def get_online_adapt_dataloader(cfg, tokenizer, tokenizer_amort=None):
         
     elif cfg.dataset.dataset_name == 'squad':
         amort_comp_dataset = SquadDataset(cfg.dataset.test_split, cfg.dataset.test_start_idx, cfg.dataset.test_end_idx, tokenizer=tokenizer,
-                                    qa_for_generation=True, pad_qa_for_gen=(cfg.model.amort_comp_batch_size != 1),
+                                    qa_for_generation=True, pad_qa_for_gen=(cfg.model.eval_amort_comp_batch_size != 1),
                                     downsample_to=cfg.downsample_to, max_text_len=max_text_len,
                                     tokenizer_amort=tokenizer_amort, num_virtual_tokens=num_virtual_tokens)
         eval_dataset = SquadDataset(cfg.dataset.test_split, cfg.dataset.test_start_idx, cfg.dataset.test_end_idx, tokenizer=tokenizer,
@@ -337,7 +337,7 @@ def get_online_adapt_dataloader(cfg, tokenizer, tokenizer_amort=None):
         
     elif cfg.dataset.dataset_name == 'archivalqa':
         amort_comp_dataset = ArchivalQADataset(cfg.dataset.test_path, tokenizer=tokenizer, qa_for_generation=True,
-                                         pad_qa_for_gen=(cfg.model.amort_comp_batch_size != 1), downsample_to=cfg.downsample_to,
+                                         pad_qa_for_gen=(cfg.model.eval_amort_comp_batch_size != 1), downsample_to=cfg.downsample_to,
                                          full_passage=cfg.dataset.full_passage, max_text_len=max_text_len,
                                          tokenizer_amort=tokenizer_amort, num_virtual_tokens=num_virtual_tokens)
         eval_dataset = ArchivalQADataset(cfg.dataset.test_path, tokenizer=tokenizer, qa_for_generation=True,
@@ -348,7 +348,7 @@ def get_online_adapt_dataloader(cfg, tokenizer, tokenizer_amort=None):
         print(f'Dataset [{cfg.dataset.dataset_name}] not supported for evaluation')
         raise NotImplementedError
 
-    amort_comp_dataloader = DataLoader(amort_comp_dataset, batch_size=cfg.model.amort_comp_batch_size, shuffle=False)
-    eval_dataloader = DataLoader(eval_dataset, batch_size=cfg.model.generation_batch_size, shuffle=False)
+    amort_comp_dataloader = DataLoader(amort_comp_dataset, batch_size=cfg.model.eval_amort_comp_batch_size, shuffle=False)
+    eval_dataloader = DataLoader(eval_dataset, batch_size=cfg.model.eval_generation_batch_size, shuffle=False)
 
     return amort_comp_dataloader, eval_dataloader
