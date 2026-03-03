@@ -12,6 +12,8 @@
 
 <p align="center">
   This repository provides a PyTorch implementation of the MBC model proposed in the paper titled <b>Memory Bank Compression for Continual Adaptation of Large Language Models</b>.
+</p>
+<p align="center">
   MBC is a memory-augmented continual learning model that reduces the memory bank footprint by 99.7% by compressing stored representations through codebook optimization and online resetting mechanisms. MBC improves QA accuracy by 11.84% (EM) and 12.99% (F1) over state-of-the-art baselines.
 </p>
 
