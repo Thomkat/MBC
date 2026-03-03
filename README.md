@@ -1,6 +1,24 @@
-# MBC: Memory Bank Compression for Continual Adaptation of Large Language Models
+<h1 align="center">MBC: Memory Bank Compression for Continual Adaptation of Large Language Models</h1>
 
-This repository provides a PyTorch implementation of the MBC model proposed in the paper titled **Memory Bank Compression for Continual Adaptation of Large Language Models**.
+<p align="center">
+  <a href="https://arxiv.org/abs/2601.00756">
+    <img src="https://img.shields.io/badge/arXiv-2601.00756-b31b1b.svg" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="assets/mbc.gif" width="750"/>
+</p>
+
+<p align="center">
+  This repository provides a PyTorch implementation of the MBC model proposed in the paper titled <b>Memory Bank Compression for Continual Adaptation of Large Language Models</b>.
+  MBC is a memory-augmented continual learning model that reduces the memory bank footprint by 99.7% by compressing stored representations through codebook optimization and online resetting mechanisms. MBC improves QA accuracy by 11.84% (EM) and 12.99% (F1) over state-of-the-art baselines.
+</p>
+
+## Abstract
+> Large Language Models (LLMs) have become a mainstay for many everyday applications. However, as data evolve their knowledge quickly becomes outdated. Continual learning aims to update LLMs with new information without erasing previously acquired knowledge. Although methods such as full fine-tuning can incorporate new data, they are computationally expensive and prone to catastrophic forgetting, where prior knowledge is overwritten. Memory-augmented approaches address this by equipping LLMs with a memory bank, that is an external memory module which stores information for future use. However, these methods face a critical limitation, in particular, the memory bank constantly grows in the real-world scenario when large-scale data streams arrive. In this paper, we propose MBC, a model that compresses the memory bank through a codebook optimization strategy during online adaptation learning. To ensure stable learning, we also introduce an online resetting mechanism that prevents codebook collapse. In addition, we employ Key-Value Low-Rank Adaptation in the attention layers of the LLM, enabling efficient utilization of the compressed memory representations. Experiments with benchmark question–answering datasets demonstrate that MBC reduces the memory bank size to 0.3\% when compared against the most competitive baseline, while maintaining high retention accuracy during online adaptation learning.
+
+---
 
 ## Installation and Datasets
 See [`INSTALL.md`](INSTALL.md) for details on setting up the environment and datasets.
